@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  # React + TypeScript のフロントエンドアプリ
+  blog_frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    container_name: blog_frontend_container
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - 5173:5173
+    tty: true
+    volumes:
+      - ./frontend:/app
+  # Golang のバックエンドアプリ
+  blog_backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    container_name: blog_backend_container
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - 8000:8000
+    tty: true
+    volumes:
+      - ./backend:/app
+  # ブログのデータベース (PostgreSQL) 
+  # blog_database:
+  #   image: postgres:15
+  #   container_name: blog_postgres
+  # AWS S3 互換のクラウドストレージ (Minio)
+  # blog_minio:
+  #   image: bitnami/minio:latest
+  #   container_name: blog_minio
